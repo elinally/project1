@@ -14,16 +14,20 @@ app.get('/', (req, res) =>{
 })
 
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => {
-    console.log('Connected to MongoDB');
-  }).catch((err) => {
-    console.error(err);
-  });
+const connectDB=async()=>{
+  try{
+      await mongoose.connect(process.env.MONGO_URL)
+      console.log("database is connected successfully!")
 
+  }
+  catch(err){
+      console.log(err)
+  }
+}
 app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => {
+  connectDB()
+  console.log(`Server started on port ${PORT}`)
+});
