@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const Ad = require('../models/Ad');
+import User from '../models/User.js';
+import Ad from '../models/Ad.js';
 
-exports.getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json(users);
@@ -10,7 +10,7 @@ exports.getUsers = async (req, res) => {
     }
 };
 
-exports.deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -25,7 +25,7 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
     const { name, email, phone, isActive } = req.body;
     try {
         const user = await User.findById(req.params.id);

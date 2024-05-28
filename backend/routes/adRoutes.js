@@ -1,12 +1,12 @@
 import express from "express";
 import { getAds, createAd, updateAd, deleteAd } from "../controllers/AdControllers.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.get('/', getAds);
-router.post('/', authMiddleware, createAd);
-router.put('/:id', authMiddleware, updateAd);
-router.delete('/:id', authMiddleware, deleteAd);
+router.post('/', protect, createAd);
+router.put('/:id', protect, updateAd);
+router.delete('/:id', protect, deleteAd);
 
 export default router;
