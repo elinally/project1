@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import {validateRegisterInput, validateLoginInput} from "../utils/validate.js";
 import { hashPassword, comparePassword } from '../utils/passwordUtils.js';
+import sendNotification from "../utils/sendNotification.js";
 
 export const register = async (req, res) => {
     const { name, email, phone, password } = req.body;
@@ -21,6 +22,7 @@ export const register = async (req, res) => {
         const user = new User({ name, email, phone, password: hashedPassword });
 
         await user.save();
+        await sendNotification(process.env.ADMIN_TELEGRAM_USERNAME, `New user registered:\nName: ${name}\nEmail: ${email}`);
 
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
