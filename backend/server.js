@@ -2,12 +2,15 @@ import express from "express";
 import mongoose from "mongoose"; 
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import adRoutes  from "./routes/adRoutes.js"
 const app = express();
 
 dotenv.config();
 
 app.use(express.json());
 app.use("/api/auth", authRoutes );
+
+app.use("/api/ad", adRoutes);
 
 app.get('/', (req, res) =>{
   res.json({message: 'Hi'})
@@ -24,7 +27,7 @@ const connectDB=async()=>{
       console.log(err)
   }
 }
-app.use('/api/auth', authRoutes);
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
