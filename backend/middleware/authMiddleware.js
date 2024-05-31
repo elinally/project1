@@ -36,4 +36,17 @@ const admin = (req, res, next) => {
     }
 };
 
-export default  protect;
+const permissionCheck = async (req, res, next) => {
+    try {
+        if (req.user && (req.user.role === 'admin' || req.user.id === req.params.id)) {
+            next();
+        } else {
+            return res.status(401).json({ message: 'No permission' });
+        }
+    } catch (error) {
+        return res.status(401).json({ message: error.message });
+    }
+};
+
+
+export { protect, admin, permissionCheck }

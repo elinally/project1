@@ -18,7 +18,7 @@ export const deleteUser = async (req, res) => {
         }
 
         await Ad.deleteMany({ user: user._id });
-        await user.remove();
+        await user.deleteOne();
         res.status(200).json({ message: 'User deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });

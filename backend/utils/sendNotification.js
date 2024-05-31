@@ -20,7 +20,7 @@ bot.onText(/\/verify (.+)/, async (msg, match) => {
     const email = match[1];
 
     try {
-        const user = await User.findOneAndUpdate({ email: email}, { isVerified: true });
+        const user = await User.findOneAndUpdate({ email: email}, { isActive: true });
         if (user) {
             bot.sendMessage(chatId,` User ${email} has been verified.`);
         } else {

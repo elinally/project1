@@ -7,7 +7,7 @@ const createAd = async (req, res) => {
             title,
             description,
             price,
-            createdBy: req.user._id, // assuming req.user is set by your authMiddleware
+            createdBy: req.user._id,
         });
 
         await ad.save();
@@ -26,7 +26,7 @@ const updateAd = async (req, res) => {
             return res.status(404).json({ message: 'Ad not found' });
         }
 
-        if (ad.createdBy.toString() !== req.user._id && req.user.role !== 'admin') {
+        if (ad.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Access denied' });
         }
 
@@ -49,11 +49,11 @@ const deleteAd = async (req, res) => {
             return res.status(404).json({ message: 'Ad not found' });
         }
 
-        if (ad.createdBy.toString() !== req.user._id && req.user.role !== 'admin') {
+        if (ad.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Access denied' });
         }
 
-        await ad.remove();
+        await ad.deleteOne();
         res.status(200).json({ message: 'Ad deleted' });
     } catch (error) {
         console.error('Error deleting ad:', error);
